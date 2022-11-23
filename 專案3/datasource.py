@@ -1,5 +1,5 @@
 import requests
-import secret
+from secret import api_key
 
 tw_county_names = {"台北": "Taipei",
                    "台中": "Taichung",
@@ -27,8 +27,8 @@ tw_county_names = {"台北": "Taipei",
 cityName = "Taipei"
 
 
-def get_forecase_data(tw_county_names):
-    url = f"https://api.openweathermap.org/data/2.5/forecast?q={tw_county_names},tw&APPID={secret.api_key}&lang=zh_tw&units=metric"
+def get_forecase_data(tw_county_names, api_key):
+    url = f"https://api.openweathermap.org/data/2.5/forecast?q={tw_county_names},tw&APPID={api_key}&lang=zh_tw&units=metric"
 
     response = requests.get(url=url)
 
