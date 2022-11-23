@@ -7,16 +7,17 @@ class Window(tk.Tk):
     def __init__(self, cities_dict):
         super().__init__()
         tk.Label(self, text="各縣市4天天氣預測", font=(
-            '標楷體', 20)).pack(padx=30, pady=30)  # 標題不能改
+            'Arial', 20)).pack(padx=30, pady=30)  # 標題不能改
 
         # 建立存放按鈕的容器
         # button_frame = tk.Frame(self).pack() 這樣會先pack，傳出none
         button_frame = tk.Frame(
             self, background="#cccccc", width=200, height=300)
-        button_frame.pack()
+        button_frame.pack(padx=50, pady=(0, 30))
 
-        for key in cities_dict:
-            tk.Button(button_frame, text=key).pack(side=tk.LEFT)
+        for index, key in enumerate(cities_dict):
+            tk.Button(button_frame, text=key, padx=20, pady=5).grid(
+                row=index % 3, column=index//3)
 
 
 def main():
