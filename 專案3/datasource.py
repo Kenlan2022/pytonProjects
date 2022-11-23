@@ -14,4 +14,4 @@ def get_forecase_data():
         print("下載成功")
         return response.json()
     else:
-        return ("下載失敗")
+        print("下載失敗")
