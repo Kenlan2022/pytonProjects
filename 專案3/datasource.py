@@ -21,13 +21,13 @@ tw_county_names = {"台北": "Taipei",
                    "澎湖": "Penghu",
                    "連江": "Lienchiang"
                    }
-                   
-api_key = "1b9553d7078c05ee58c7baa6a6930fe6"
+
+
 cityName = "Taipei"
 
 
-def get_forecase_data(cityName):
-    url = f"https://api.openweathermap.org/data/2.5/forecast?q={cityName},tw&APPID={api_key}&lang=zh_tw&units=metric"
+def get_forecase_data(tw_county_names):
+    url = f"https://api.openweathermap.org/data/2.5/forecast?q={tw_county_names},tw&APPID={api_key}&lang=zh_tw&units=metric"
 
     response = requests.get(url=url)
 
