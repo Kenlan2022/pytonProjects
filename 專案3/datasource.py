@@ -24,7 +24,7 @@ tw_county_names = {"台北": "Taipei",
                    }
 
 
-cityName = "Taipei"
+cityName = "tw_county_names"
 
 
 def get_forecase_data(tw_county_names, api_key):
@@ -36,4 +36,4 @@ def get_forecase_data(tw_county_names, api_key):
         print("下載成功")
         return response.json()["list"]
     else:
-        print("下載失敗")
+        raise Exception(f"{tw_county_names}下載失敗")
