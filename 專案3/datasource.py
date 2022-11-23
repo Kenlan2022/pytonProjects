@@ -12,6 +12,6 @@ def get_forecase_data():
 
     if response.ok:
         print("下載成功")
-        print("response.txt")
+        return response.json()
     else:
-        print("下載失敗")
+        return ("下載失敗")
