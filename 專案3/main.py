@@ -3,7 +3,7 @@ import datasource as ds
 
 def main():
     print("這裡是main function")
-    list_data = ds.get_forecase_data(ds.tw_county_names["基隆"])
+    list_data = ds.get_forecase_data(ds.tw_county_names["高雄"])
     for item in list_data:
         print(item["main"]["temp"])
 
