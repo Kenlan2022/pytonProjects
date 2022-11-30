@@ -72,11 +72,11 @@ class CustomFrame(tk.Frame):
         self.list_data = data
         self.tree = ttk.Treeview(
             self, columns=["#1", "#2", "#3", "4"], show="headings", height=10)
+        self.tree.pack(side=tk.LEFT)
         scrollbar = tk.Scrollbar(self)
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        scrollbar.pack(side=tk.LEFT, fill=tk.Y)
         self.tree.config(yscrollcommand=scrollbar.set)
         scrollbar.config(command=self.tree.yview)
-        self.tree.pack(side=tk.LEFT)
 
         self.tree.heading("#1", text="時間")
         self.tree.heading("#2", text="溫度")
