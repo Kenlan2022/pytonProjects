@@ -24,9 +24,9 @@ class Window(tk.Tk):
             btn.grid(row=index % grid_row_num, column=index//grid_row_num)
             btn.bind("<Button>", self.button_click)  # 按下後將button資訊傳出
 
-        displayFrame = ttk.LabelFrame(
+        self.displayFrame = ttk.LabelFrame(
             self, text="台北", width=300, height=200, borderwidth=2, relief=tk.GROOVE)
-        displayFrame.pack(fill=tk.BOTH, padx=50, pady=(0, 30))
+        self.displayFrame.pack(fill=tk.BOTH, padx=50, pady=(0, 30))
 
     # 實體的方法
 
@@ -39,6 +39,11 @@ class Window(tk.Tk):
         city_forcast = ds.get_forcast_data(ename, api_key)
         print(cname)
         print(city_forcast)
+        if hasattr(self, 'displayFrame'):  # 如果屬性有displayframe時刪除displayframe防止重複疊加框架
+            self.displayFrame.destroy()
+        self.displayFrame = ttk.LabelFrame(
+            self, text=f"{cname}", width=300, height=200, borderwidth=2, relief=tk.GROOVE)
+        self.displayFrame.pack(fill=tk.BOTH, padx=50, pady=(0, 30))
 
 
 def main():
