@@ -19,11 +19,13 @@ class Window(tk.Tk):
         grid_row_num = 3
         for index, cities in enumerate(cities_dict.items()):
             cname, ename = cities  # 將key,value拆到兩個變數中
-            tk.Button(button_frame, text=f"{cname}\n{ename}", command=self.button_click, padx=20, pady=5).grid(
-                row=index % grid_row_num, column=index//grid_row_num)
+            btn = tk.Button(
+                button_frame, text=f"{cname}\n{ename}", width=10, padx=20, pady=5)
+            btn.grid(row=index % grid_row_num, column=index//grid_row_num)
+            btn.bind("<Button>", self.button_click)
 
-    def button_click(self):
-        print("user click")
+    def button_click(self, event):
+        print(event.widget["text"])
 
 
 def main():
