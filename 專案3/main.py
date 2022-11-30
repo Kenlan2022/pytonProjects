@@ -41,9 +41,14 @@ class Window(tk.Tk):
         print(city_forcast)
         if hasattr(self, 'displayFrame'):  # 如果屬性有displayframe時刪除displayframe防止重複疊加框架
             self.displayFrame.destroy()
-        self.displayFrame = ttk.LabelFrame(
+        self.displayFrame = DisplayFrame.LabelFrame(
             self, text=f"{cname}", width=300, height=200, borderwidth=2, relief=tk.GROOVE)
         self.displayFrame.pack(fill=tk.BOTH, padx=50, pady=(0, 30))
+
+
+class DisplayFrame(ttk.LabelFrame):
+    def __init__(self, parent, **kwargs):  # 打包變成dict
+        super().__init__(parent, **kwargs)
 
 
 def main():
