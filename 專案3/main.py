@@ -24,10 +24,6 @@ class Window(tk.Tk):
             btn.grid(row=index % grid_row_num, column=index//grid_row_num)
             btn.bind("<Button>", self.button_click)  # 按下後將button資訊傳出
 
-        self.displayFrame = ttk.LabelFrame(
-            self, text="台北", width=300, height=200, borderwidth=2, relief=tk.GROOVE)
-        self.displayFrame.pack(fill=tk.BOTH, padx=50, pady=(0, 30))
-
     # 實體的方法
 
     def button_click(self, event):
@@ -41,14 +37,23 @@ class Window(tk.Tk):
         print(city_forcast)
         if hasattr(self, 'displayFrame'):  # 如果屬性有displayframe時刪除displayframe防止重複疊加框架
             self.displayFrame.destroy()
-        self.displayFrame = DisplayFrame.LabelFrame(
-            self, text=f"{cname}", width=300, height=200, borderwidth=2, relief=tk.GROOVE)
+        self.displayFrame = DisplayFrame(
+            self, data=city_forcast, text=f"{cname}", borderwidth=2, relief=tk.GROOVE)
         self.displayFrame.pack(fill=tk.BOTH, padx=50, pady=(0, 30))
 
 
 class DisplayFrame(ttk.LabelFrame):
-    def __init__(self, parent, **kwargs):  # 打包變成dict
+    def __init__(self, parent, data=None, **kwargs):  # **kwargs打包變成dict
         super().__init__(parent, **kwargs)
+        self.city_data = data
+        leftFrame = tk.Frame(self, width=200, height=200, bg="#ff0000")
+        leftFrame.pack(side=tk.LEFT)
+
+        centerFrame = tk.Frame(self, width=200, height=200, bg="#00ff00")
+        centerFrame.pack(side=tk.LEFT)
+
+        rightFrame = tk.Frame(self, width=200, height=200, bg="#0000ff")
+        rightFrame.pack(side=tk.LEFT)
 
 
 def main():
