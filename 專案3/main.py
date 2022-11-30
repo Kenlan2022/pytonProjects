@@ -29,9 +29,9 @@ class Window(tk.Tk):
         cname = name_list[0]
         ename = name_list[1]
         print(f"{cname}--{ename}")
-        city_forecast = ds.get_forecast_data(ename, api_key)
+        city_forcast = ds.get_forcast_data(ename, api_key)
         print(cname)
-        print(city_forecast)
+        print(city_forcast)
 
 
 def main():
