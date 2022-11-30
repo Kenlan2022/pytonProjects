@@ -46,19 +46,27 @@ class DisplayFrame(ttk.LabelFrame):
     def __init__(self, parent, data=None, **kwargs):  # **kwargs打包變成dict
         super().__init__(parent, **kwargs)
         self.city_data = data
+        # 拆解資料成三份
+        total_rows = len(self.city_data)
+        column_rows = total_rows//3+1
+        leftData = self.city_data[:column_rows]
+        centerData = self.city_data[column_rows:column_rows*2]
+        rightData = self.city_data[column_rows*2:]
+
         leftFrame = CustomFrame(self, width=200, height=200, bg="#ff0000")
         leftFrame.pack(side=tk.LEFT)
 
-        centerFrame = tk.CustomFrame(self, width=200, height=200, bg="#00ff00")
+        centerFrame = CustomFrame(self, width=200, height=200, bg="#00ff00")
         centerFrame.pack(side=tk.LEFT)
 
-        rightFrame = tk.CustomFrame(self, width=200, height=200, bg="#0000ff")
+        rightFrame = CustomFrame(self, width=200, height=200, bg="#0000ff")
         rightFrame.pack(side=tk.LEFT)
 
 
 class CustomFrame(tk.Frame):
-    def __init__(self, parent, **kwargs):
-        super().__init__(parent, **kwargs)
+    def __init__(self, parent, data=None, **kwargs):
+        super().__init__(parent, **kwargs)  # **進來是打包，**出去是解壓縮
+        self.list_data = data
 
 
 def main():
@@ -67,7 +75,7 @@ def main():
     window.mainloop()
 
     # try:
-    #     list_data = ds.get_forecase_data(ds.tw_county_names["金門"], api_key)
+    #     list_data = ds.get_forcast_data(ds.tw_county_names["金門"], api_key)
     # except Exception as e:
     #     print(e)
     #     return
