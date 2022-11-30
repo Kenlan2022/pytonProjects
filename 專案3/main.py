@@ -12,7 +12,7 @@ class Window(tk.Tk):
 
         # 建立存放按鈕的容器
         # button_frame = tk.Frame(self).pack() 這樣會先pack，傳出none
-        button_frame = tk.Frame()
+        button_frame = tk.Frame(self)
         button_frame.pack(padx=50, pady=(0, 30))
 
         # 設定grid的row數量
@@ -46,14 +46,19 @@ class DisplayFrame(ttk.LabelFrame):
     def __init__(self, parent, data=None, **kwargs):  # **kwargs打包變成dict
         super().__init__(parent, **kwargs)
         self.city_data = data
-        leftFrame = tk.Frame(self, width=200, height=200, bg="#ff0000")
+        leftFrame = CustomFrame(self, width=200, height=200, bg="#ff0000")
         leftFrame.pack(side=tk.LEFT)
 
-        centerFrame = tk.Frame(self, width=200, height=200, bg="#00ff00")
+        centerFrame = tk.CustomFrame(self, width=200, height=200, bg="#00ff00")
         centerFrame.pack(side=tk.LEFT)
 
-        rightFrame = tk.Frame(self, width=200, height=200, bg="#0000ff")
+        rightFrame = tk.CustomFrame(self, width=200, height=200, bg="#0000ff")
         rightFrame.pack(side=tk.LEFT)
+
+
+class CustomFrame(tk.Frame):
+    def __init__(self, parent, **kwargs):
+        super().__init__(parent, **kwargs)
 
 
 def main():
