@@ -11,8 +11,7 @@ class Window(tk.Tk):
 
         # 建立存放按鈕的容器
         # button_frame = tk.Frame(self).pack() 這樣會先pack，傳出none
-        button_frame = tk.Frame(
-            self, background="#cccccc", width=200, height=300)
+        button_frame = tk.Frame()
         button_frame.pack(padx=50, pady=(0, 30))
 
         # 設定grid的row數量
@@ -22,10 +21,17 @@ class Window(tk.Tk):
             btn = tk.Button(
                 button_frame, text=f"{cname}\n{ename}", width=10, padx=20, pady=5)
             btn.grid(row=index % grid_row_num, column=index//grid_row_num)
-            btn.bind("<Button>", self.button_click)
+            btn.bind("<Button-1>", self.button_click)  # 按下後將button資訊傳出
 
     def button_click(self, event):
-        print(event.widget["text"])
+        btn_text = event.widget["text"]  # attribute 是 widget
+        name_list = btn_text.split("\n")
+        cname = name_list[0]
+        ename = name_list[1]
+        print(f"{cname}--{ename}")
+        city_forecast = ds.get_forecast_data(ename, api_key)
+        print(cname)
+        print(city_forecast)
 
 
 def main():

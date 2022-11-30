@@ -27,7 +27,7 @@ tw_county_names = {"台北": "Taipei",
 cityName = "tw_county_names"
 
 
-def get_forecase_data(tw_county_names, api_key):
+def get_forecast_data(tw_county_names, api_key):
     url = f"https://api.openweathermap.org/data/2.5/forecast?q={tw_county_names},tw&APPID={api_key}&lang=zh_tw&units=metric"
 
     response = requests.get(url=url)
