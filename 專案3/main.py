@@ -31,10 +31,14 @@ class Window(tk.Tk):
         name_list = btn_text.split("\n")
         cname = name_list[0]
         ename = name_list[1]
-        print(f"{cname}--{ename}")
-        city_forcast = ds.get_forcast_data(ename, api_key)
-        print(cname)
-        print(city_forcast)
+
+        try:
+            city_forcast = ds.get_forcast_data(ename, api_key)
+
+        except Exception as e:
+            # 出現錯誤訊息
+            return
+
         if hasattr(self, 'displayFrame'):  # 如果屬性有displayframe時刪除displayframe防止重複疊加框架
             self.displayFrame.destroy()
         self.displayFrame = DisplayFrame(
