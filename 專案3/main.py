@@ -1,6 +1,7 @@
 import datasource as ds
 from secret import api_key
 import tkinter as tk
+from tkinter import ttk
 
 
 class Window(tk.Tk):
@@ -21,7 +22,13 @@ class Window(tk.Tk):
             btn = tk.Button(
                 button_frame, text=f"{cname}\n{ename}", width=10, padx=20, pady=5)
             btn.grid(row=index % grid_row_num, column=index//grid_row_num)
-            btn.bind("<Button-1>", self.button_click)  # 按下後將button資訊傳出
+            btn.bind("<Button>", self.button_click)  # 按下後將button資訊傳出
+
+        displayFrame = ttk.LabelFrame(
+            self, text="台北", width=300, height=200, borderwidth=2, relief=tk.GROOVE)
+        displayFrame.pack(fill=tk.BOTH, padx=50, pady=(0, 30))
+
+    # 實體的方法
 
     def button_click(self, event):
         btn_text = event.widget["text"]  # attribute 是 widget
