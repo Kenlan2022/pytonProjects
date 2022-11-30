@@ -71,7 +71,11 @@ class CustomFrame(tk.Frame):
         super().__init__(parent, **kwarge)  # **進來是打包，**出去是解壓縮
         self.list_data = data
         self.tree = ttk.Treeview(
-            self, columns=["#1", "#2", "#3", "4"], show="headings", height=14)
+            self, columns=["#1", "#2", "#3", "4"], show="headings", height=10)
+        scrollbar = tk.Scrollbar(self)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.tree.config(yscrollcommand=scrollbar.set)
+        scrollbar.config(command=self.tree.yview)
         self.tree.pack(side=tk.LEFT)
 
         self.tree.heading("#1", text="時間")
