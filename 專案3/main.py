@@ -55,22 +55,23 @@ class DisplayFrame(ttk.LabelFrame):
 
         leftFrame = CustomFrame(
             self, width=200, data=leftData, height=200, bg="#ff0000")
-        leftFrame.pack(side=tk.LEFT)
+        leftFrame.pack(side=tk.LEFT, padx=10)
 
         centerFrame = CustomFrame(
             self, width=200, data=centerData, height=200, bg="#00ff00")
-        centerFrame.pack(side=tk.LEFT)
+        centerFrame.pack(side=tk.LEFT, padx=10)
 
         rightFrame = CustomFrame(
             self, width=200, height=200, data=rightData, bg="#0000ff")
-        rightFrame.pack(side=tk.LEFT)
+        rightFrame.pack(side=tk.LEFT, padx=10)
 
 
 class CustomFrame(tk.Frame):
     def __init__(self, parent, data=None, **kwarge):
         super().__init__(parent, **kwarge)  # **進來是打包，**出去是解壓縮
         self.list_data = data
-        self.tree = ttk.Treeview(self, columns=["#1", "#2", "#3", "4"])
+        self.tree = ttk.Treeview(
+            self, columns=["#1", "#2", "#3", "4"], show="headings", height=14)
         self.tree.pack(side=tk.LEFT)
 
         self.tree.heading("#1", text="時間")
@@ -78,9 +79,9 @@ class CustomFrame(tk.Frame):
         self.tree.heading("#3", text="天氣")
         self.tree.heading("#4", text="濕度")
 
-        self.tree.column("#1", width=120, anchor="center")
+        self.tree.column("#1", width=180, anchor="center")
         self.tree.column("#2", width=50, anchor="center")
-        self.tree.column("#3", width=100, anchor="center")
+        self.tree.column("#3", width=80, anchor="center")
         self.tree.column("#4", width=100, anchor="center")
 
         for item in self.list_data:
