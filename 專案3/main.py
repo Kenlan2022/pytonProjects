@@ -15,9 +15,15 @@ class Window(tk.Tk):
             self, background="#cccccc", width=200, height=300)
         button_frame.pack(padx=50, pady=(0, 30))
 
-        for index, key in enumerate(cities_dict):
-            tk.Button(button_frame, text=key, padx=20, pady=5).grid(
-                row=index % 3, column=index//3)
+        # 設定grid的row數量
+        grid_row_num = 3
+        for index, cities in enumerate(cities_dict.items()):
+            cname, ename = cities  # 將key,value拆到兩個變數中
+            tk.Button(button_frame, text=f"{cname}\n{ename}", command=self.button_click, padx=20, pady=5).grid(
+                row=index % grid_row_num, column=index//grid_row_num)
+
+    def button_click(self):
+        print("user click")
 
 
 def main():
