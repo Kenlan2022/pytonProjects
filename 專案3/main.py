@@ -2,6 +2,7 @@ import datasource as ds
 from secret import api_key
 import tkinter as tk
 from tkinter import ttk
+from tkinter.messagebox import showinfo
 
 
 class Window(tk.Tk):
@@ -37,6 +38,7 @@ class Window(tk.Tk):
 
         except Exception as e:
             # 出現錯誤訊息
+            showinfo(message='無法下載')
             return
 
         if hasattr(self, 'displayFrame'):  # 如果屬性有displayframe時刪除displayframe防止重複疊加框架

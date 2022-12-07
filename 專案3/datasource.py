@@ -1,5 +1,4 @@
 import requests
-from secret import api_key
 
 tw_county_names = {"台北": "Taipei",
                    "台中": "Taichung",
