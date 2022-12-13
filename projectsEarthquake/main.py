@@ -3,6 +3,9 @@ from Secrets import api_key
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
+from PIL import Image, ImageTk
+import io
+import urllib.request
 
 
 class Window(tk.Tk):
@@ -15,9 +18,19 @@ class Window(tk.Tk):
         button_frame = tk.Frame(self)
         button_frame.pack(padx=50, pady=(0, 30))
 
-        btn = tk.Button(
+        btn1 = tk.Button(
             button_frame, text="查詢", command=self.button_click, width=10, padx=20, pady=5)
-        btn.pack()
+        btn1.pack()
+        
+        self.btn2 = tk.Button(
+        button_frame, text="在事件雙擊左鍵，再點擊開啟圖片", width=30, padx=20, pady=5)
+        self.btn2.pack(side="top",pady=5)
+        self.btn2.bind("<Button-1>",CustomFrame.create_img)
+        
+       
+            
+    
+        
 
  # 實體的方法
 
@@ -69,17 +82,22 @@ class CustomFrame(tk.Frame):
         self.tree = ttk.Treeview(
             self, columns=["#1", "#2", "#3",], show="headings", height=10)
         self.tree.pack(side=tk.LEFT)
-        scrollbar = tk.Scrollbar(self)
-        scrollbar.pack(side=tk.LEFT, fill=tk.Y)
-        self.tree.config(yscrollcommand=scrollbar.set)
-        scrollbar.config(command=self.tree.yview)
+        scrollbar1 = tk.Scrollbar(self)
+        scrollbar1.pack(side=tk.LEFT, fill=tk.Y)
+        self.tree.config(yscrollcommand=scrollbar1.set)
+        scrollbar1.config(command=self.tree.yview)
+
+        scrollbar2 = tk.Scrollbar(self)
+        scrollbar2.pack(side=tk.LEFT, fill=tk.X)
+        self.tree.config(xscrollcommand=scrollbar2.set)
+        scrollbar2.config(command=self.tree.xview)
 
         self.tree.heading("#1", text="事件")
         self.tree.heading("#2", text="資訊網址")
         self.tree.heading("#3", text="資訊圖片")
 
-        self.tree.column("#1", width=800, anchor="center")
-        self.tree.column("#2", width=440, anchor="center")
+        self.tree.column("#1", width=300, anchor="center")
+        self.tree.column("#2", width=340, anchor="center")
         self.tree.column("#3", width=440, anchor="center")
 
         for item in self.list_data:
@@ -89,10 +107,43 @@ class CustomFrame(tk.Frame):
 
     def OnDoubleClick(self, event):
         self.item = self.tree.identify("item", event.x, event.y)
-        print("you clicked on", self.tree.item(self.item, "values"))
+        # print("you clicked on", self.tree.item(self.item, "values"))
+        self.img_value = self.tree.item(self.item, "values")
+        self.img_url = self.img_value[2]
+        print(self.img_url)
+        
+        global image
+
+
+        with urllib.request.urlopen(self.img_url) as connection:
+            raw_data = connection.read()
+        im = Image.open(io.BytesIO(raw_data))
+        im_resize = im.resize((400, 300))
+        image = ImageTk.PhotoImage(im_resize)
+        # return image
+       
+
+        
+
+    def create_img(self):
+        if hasattr(self, 'canvas'):  # 如果屬性有displayframe時刪除displayframe防止重複疊加框架
+            self.canvas.destroy()
+
+        try:
+            image
+        except:
+            showinfo("警告","尚未點擊資訊")
+        else:
+            pass
+
+        self.canvas = tk.Canvas(window, width=700, height=700)
+        self.canvas.create_image(0, 0, anchor='nw', image=image)   # 在 Canvas 中放入圖片
+        self.canvas.pack()
+
 
 
 def main():
+    global window
     window = Window()
     window.title("地震結果查詢")
     window.mainloop()
