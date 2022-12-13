@@ -1,0 +1,102 @@
+import datasource as ds
+from Secrets import api_key
+import tkinter as tk
+from tkinter import ttk
+from tkinter.messagebox import showinfo
+
+
+class Window(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        tk.Label(self, text="地震資訊查詢", font=(
+            'Arial', 20)).pack(padx=30, pady=30)
+
+        # 建立存放按鈕的容器
+        button_frame = tk.Frame(self)
+        button_frame.pack(padx=50, pady=(0, 30))
+
+        btn = tk.Button(
+            button_frame, text="查詢", command=self.button_click, width=10, padx=20, pady=5)
+        btn.pack()
+
+ # 實體的方法
+
+    def button_click(self):
+
+        try:
+            earthquake_report = ds.get_report_data(api_key)
+
+        except Exception as e:
+            # 出現錯誤訊息
+            showinfo(message=e)
+            return
+
+        if hasattr(self, 'displayFrame'):  # 如果屬性有displayframe時刪除displayframe防止重複疊加框架
+            self.displayFrame.destroy()
+        self.displayFrame = DisplayFrame(
+            self, data=earthquake_report, text="地震", borderwidth=2, relief=tk.GROOVE)
+        self.displayFrame.pack(fill=tk.BOTH, padx=50)
+
+
+class DisplayFrame(ttk.LabelFrame):
+    def __init__(self, parent, data=None, **kwargs):  # **kwargs打包變成dict
+        super().__init__(parent, **kwargs)
+        self.earthquake_data = data
+        # 拆解資料成三份
+        total_rows = len(self.earthquake_data)
+        column_rows = total_rows//3+1
+        # leftData = self.earthquake_data[:column_rows]
+        centerData = self.earthquake_data  # [column_rows:column_rows*2]
+        # rightData = self.earthquake_data[column_rows*2:]
+
+        # leftFrame = CustomFrame(
+        #     self, width=200, data=leftData, height=200)
+        # leftFrame.pack(side=tk.LEFT, padx=10)
+
+        centerFrame = CustomFrame(
+            self, width=200, data=centerData, height=200)
+        centerFrame.pack(side=tk.LEFT, padx=10)
+
+        # rightFrame = CustomFrame(
+        #     self, width=200, height=200, data=rightData)
+        # rightFrame.pack(side=tk.LEFT, padx=10)
+
+
+class CustomFrame(tk.Frame):
+    def __init__(self, parent, data=None, **kwarge):
+        super().__init__(parent, **kwarge)  # **進來是打包，**出去是解壓縮
+        self.list_data = data
+        self.tree = ttk.Treeview(
+            self, columns=["#1", "#2", "#3",], show="headings", height=10)
+        self.tree.pack(side=tk.LEFT)
+        scrollbar = tk.Scrollbar(self)
+        scrollbar.pack(side=tk.LEFT, fill=tk.Y)
+        self.tree.config(yscrollcommand=scrollbar.set)
+        scrollbar.config(command=self.tree.yview)
+
+        self.tree.heading("#1", text="事件")
+        self.tree.heading("#2", text="資訊網址")
+        self.tree.heading("#3", text="資訊圖片")
+
+        self.tree.column("#1", width=800, anchor="center")
+        self.tree.column("#2", width=440, anchor="center")
+        self.tree.column("#3", width=440, anchor="center")
+
+        for item in self.list_data:
+            self.tree.insert('', tk.END, values=item)
+
+        self.tree.bind("<Double-1>", self.OnDoubleClick)
+
+    def OnDoubleClick(self, event):
+        self.item = self.tree.identify("item", event.x, event.y)
+        print("you clicked on", self.tree.item(self.item, "values"))
+
+
+def main():
+    window = Window()
+    window.title("地震結果查詢")
+    window.mainloop()
+
+
+if __name__ == "__main__":
+    main()
