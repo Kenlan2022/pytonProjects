@@ -87,10 +87,10 @@ class CustomFrame(tk.Frame):
         self.tree.config(yscrollcommand=scrollbar1.set)
         scrollbar1.config(command=self.tree.yview)
 
-        scrollbar2 = tk.Scrollbar(self)
-        scrollbar2.pack(side=tk.LEFT, fill=tk.X)
-        self.tree.config(xscrollcommand=scrollbar2.set)
-        scrollbar2.config(command=self.tree.xview)
+        # scrollbar2 = tk.Scrollbar(self)
+        # scrollbar2.pack(side=tk.LEFT, fill=tk.X)
+        # self.tree.config(xscrollcommand=scrollbar2.set)
+        # scrollbar2.config(command=self.tree.xview)
 
         self.tree.heading("#1", text="事件")
         self.tree.heading("#2", text="資訊網址")
